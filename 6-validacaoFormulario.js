@@ -2,41 +2,41 @@ const Pessoa = require('./5-validandoCPF')
 
 class Form extends Pessoa {
     constructor(firstName, lastName, cpf, user, password, confirmPassword) {
+
+        const verifyEmptyFields = Form.verifyEmptyFilds(user, password, confirmPassword)
+
+        const verifyPassword = Form.verifyPasswordEquals(password, confirmPassword)
+
+        const verifyLengthPassword = Form.verifyLengthPassword(password)
+
         super(firstName, lastName, cpf)
 
-        const verifyEmpty = this.verifyEmptyFilds(this.firstName, this.lastName, cpf, user, password, confirmPassword)
-
-        const verifyPassword = this.verifyPasswordEquals(password, confirmPassword)
-
-        const verifyLengthPassword = this.verifyLengthPassword(password)
-
-        if (verifyEmpty && verifyPassword && verifyLengthPassword) {
-            cpf ? this.cpf = cpf.replace(/\D+/g, '') : this.cpf = false;
+        if (verifyEmptyFields && verifyPassword && verifyLengthPassword) {
             this.user = user;
             this.password = password;
-            this.confirmPassword = confirmPassword;
+        } else {
+            delete this.firstName
+            delete this.lastName
+            delete this.cpf
         }
     }
 
-    verifyEmptyFilds(firtName, lastName, cpf, user, password, confirmPassword) {
+    static verifyEmptyFilds(user, password, confirmPassword) {
         const formFilds = {
-            firtName,
-            lastName,
-            cpf,
             user,
             password,
             confirmPassword
         }
         for (const field in formFilds) {
-            if (formFilds[field] === undefined || formFilds[field] === '' || formFilds[field] == null) {
-                console.log('Has empty fild!')
+            if (!formFilds[field]) {
+                console.log('Has empty filds!')
                 return false
             }
         }
         return true
     }
 
-    verifyPasswordEquals(password, confirmPassword) {
+    static verifyPasswordEquals(password, confirmPassword) {
         if (password !== confirmPassword) {
             console.log('Password not equal to confirm password')
             return false
@@ -44,7 +44,7 @@ class Form extends Pessoa {
         return true
     }
 
-    verifyLengthPassword(password) {
+    static verifyLengthPassword(password) {
         if (password.length < 6 || password.length > 12) {
             console.log('The password must have a minimum of 6 and a maximum of 12 characters')
             return false
@@ -53,5 +53,5 @@ class Form extends Pessoa {
     }
 }
 
-const formulario = new Form('', 'siqueira', '47223888814', 'jr', '123456', '123456')
+const formulario = new Form('vagner', 'siqueira', '47223888814', 'rr', '123456', '123456')
 console.log(formulario)

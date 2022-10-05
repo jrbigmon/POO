@@ -49,7 +49,6 @@ class Pessoa {
     }
 }
 
-const p1 = new Pessoa('', 'Siqueira', '47223888814')
-console.log(p1)
-
+// const p1 = new Pessoa('', 'Siqueira', '47223888814')
+// console.log(p1)
 module.exports = Pessoa
